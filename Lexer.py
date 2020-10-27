@@ -1,9 +1,9 @@
 from ply import lex
 
-class lexer:
 
+class Lexer:
     tokens = [
-       'ID', 'INTEGERNUMBER', 'FLOATNUMBER', 'INTEGER', 'FLOAT',
+        'ID', 'INTEGERNUMBER', 'FLOATNUMBER', 'INTEGER', 'FLOAT',
         'BOOLEAN', 'FUNCTION', 'TRUE', 'FALSE', 'PRINT', 'RETURN',
         'MAIN', 'IF', 'ELSE', 'ELSEIF', 'WHILE', 'ON', 'WHERE', 'FOR',
         'AND', 'OR', 'NOT', 'IN', 'ASSIGN', 'SUM', 'SUB', 'MUL', 'DIV',
@@ -55,5 +55,3 @@ class lexer:
     t_RRB = r'\)'
     t_LSB = r'\[>'
     t_RSB = r'\]>'
-
-
