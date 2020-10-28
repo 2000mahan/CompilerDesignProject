@@ -56,6 +56,10 @@ class Lexer:
     t_LSB = r'\[>'
     t_RSB = r'\]>'
 
+    def t_INTEGERNUMBER(self, t):
+        r'[+-]?[1-9][0-9]{8}'
+        return t
+
     def t_ID(self, t):
         r'[a-z][a-zA-Z_0-9]*'
         if t.value in self.reserved:
