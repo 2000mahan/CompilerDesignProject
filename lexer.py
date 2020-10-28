@@ -55,3 +55,20 @@ class Lexer:
     t_RRB = r'\)'
     t_LSB = r'\[>'
     t_RSB = r'\]>'
+
+    # Define a rule so we can track line numbers
+    def t_newline(self, t):
+        r'\n+'
+        t.lexer.lineno += len(t.value)
+
+    # A string containing ignored characters (spaces and tabs)
+    t_ignore = '\t'
+
+    # Error handling rule
+    def t_error(self, t):
+        raise Exception('Error at', t.value)
+
+    # Build the lexer
+    def build(self, **kwargs):
+        self.lexer = lex.lex(module = self, **kwargs)
+        return self.lexer
