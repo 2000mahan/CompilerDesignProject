@@ -56,6 +56,12 @@ class Lexer:
     t_LSB = r'\[>'
     t_RSB = r'\]>'
 
+    def t_ID(self, t):
+        r'[a-z][a-zA-Z_0-9]*'
+        if t.value in self.reserved:
+            t.type = self.reserved[t.value]  # Check for reserved words
+        return t
+
     # Define a rule so we can track line numbers
     def t_newline(self, t):
         r'\n+'
