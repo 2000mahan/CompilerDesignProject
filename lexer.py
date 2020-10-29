@@ -8,7 +8,7 @@ class Lexer:
         'MAIN', 'IF', 'ELSE', 'ELSEIF', 'WHILE', 'ON', 'WHERE', 'FOR',
         'AND', 'OR', 'NOT', 'IN', 'ASSIGN', 'SUM', 'SUB', 'MUL', 'DIV',
         'MOD', 'GT', 'GE', 'LT', 'LE', 'EQ', 'NE', 'LCB', 'RCB',
-        'LRB', 'RRB', 'LSB', 'RSB', 'SEMICOLON', 'COLON', 'COMMA', 'ERROR!'
+        'LRB', 'RRB', 'LSB', 'RSB', 'SEMICOLON', 'COLON', 'COMMA', 'ERROR'
     ]
     reserved = {
         # Conditional
@@ -39,7 +39,7 @@ class Lexer:
     # Colons
     t_SEMICOLON = r';'
     t_COLON = r':'
-    t_COLON = r'COMMA'
+    t_COMMA = r','
     # Operators
     t_MUL = r'\*'
     t_DIV = r'\/'
@@ -55,6 +55,10 @@ class Lexer:
     t_RRB = r'\)'
     t_LSB = r'\[>'
     t_RSB = r'\]>'
+
+    def t_FLOATNUMBER(self, t):
+        
+        return t
 
     def t_INTEGERNUMBER(self, t):
         r'[+-]?[1-9][0-9]{8}'
