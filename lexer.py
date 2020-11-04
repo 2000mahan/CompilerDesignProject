@@ -25,8 +25,8 @@ class Lexer:
         'bool': 'BOOLEAN',
         # Other Keywords
         'print': 'PRINT',
-        'true': 'TRUE',
-        'false': 'FALSE',
+        'True': 'TRUE',
+        'False': 'FALSE',
         'return': 'RETURN',
         'fun': 'FUNCTION',
         'main': 'MAIN',
@@ -46,6 +46,7 @@ class Lexer:
     t_SUM = r'\+'
     t_SUB = r'\-'
     t_MOD = r'%'
+    t_ASSIGN = r'='
     t_GT = r'>'
     t_GE = r'>='
     t_LT = r'<'
@@ -68,7 +69,7 @@ class Lexer:
        |([0-9]{10,})
        |([0-9]+)(\.[0-9]+){2,}
         |([A-Z])+[a-zA-Z_0-9]+
-        |[0-9]+[a-zA-Z][a-zA-Z_0-9]+
+        |[0-9]+[a-z_A-Z][a-zA-Z_0-9]+
         |[\%\/\+\-\*](\s*[\%\/\+\-\*]+)+
         |ERROR
         """
