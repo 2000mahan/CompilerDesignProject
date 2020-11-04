@@ -35,6 +35,7 @@ class Lexer:
         'or': 'OR',
         'not': 'NOT',
         'in': 'IN',
+        'where': 'WHERE'
     }
     # Colons
     t_SEMICOLON = r';'
@@ -61,8 +62,13 @@ class Lexer:
     t_LSB = r'\['
     t_RSB = r'\]'
 
+    def t_TRUE(self, t):
+        r'True'
+        return t
 
-
+    def t_FALSE(self, t):
+        r'False'
+        return t
 
     def t_ERROR(self, t):
         r"""([0-9]{10,})(\.[0-9]+)
@@ -81,7 +87,6 @@ class Lexer:
 
     t_ignore = '\n \t \r '
 
-
     def t_FLOATNUMBER(self, t):
         r"""[0-9]{1,9}\.[0-9]+"""
         t.value = float(t.value)
@@ -98,11 +103,8 @@ class Lexer:
             t.type = self.reserved[t.value]
         return t
 
-
     def t_error(self, t):
-
         raise Exception('Error at', t.value)
-
 
     def build(self, **kwargs):
         """
