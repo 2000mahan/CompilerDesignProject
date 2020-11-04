@@ -75,8 +75,8 @@ class Lexer:
        |([0-9]{10,})
        |([0-9]+)(\.[0-9]+){2,}
         |([A-Z])+[a-zA-Z_0-9]+
-        |[0-9]+[a-z_A-Z][a-zA-Z_0-9]+
-        |[\%\/\+\-\*](\s*[\%\/\+\-\*]+)+
+        |[0-9]+[a-z_A-Z][a-zA-Z_0-9]*
+        |[\+\-\%\/\*](\s*[\+\-\%\/\*]+)+
         |ERROR
         """
         return t
@@ -93,7 +93,7 @@ class Lexer:
         return t
 
     def t_INTEGERNUMBER(self, t):
-        r"""([0-9]{1,9})"""
+        r"""[0-9]{1,9}"""
         t.value = int(t.value)
         return t
 
