@@ -1,30 +1,49 @@
-___+___-9,9+,-5.0 
-
-for(foR = whiLE ; v <= 40 and main ; a++)
-
-};{ }[a-9 ]
-
-print (90 - i)
-
-if(x<5)--x ;
-
-while (9<=false) true ;
-
-if(5) print(9er) 
-
-elif (7 != 8) b=7=225987390900.55 ;
-
-else elSE() ;
-
-return code
-
-studentNumber_firstName_lastName
-
-9631082_amir_shir
-
-float amirreza,mohammad[666]
-
-mohammad=9.75 + 123456
-
-amir=mohammad + 225511390900
-
+i,j,k[50]:int;
+res2:float;
+fun amir(a:int, b[]:int, c:int)
+{
+    if(a>c)
+    {
+        w=b[a-c]:int;
+        print(w);
+    }
+    elseif(a==c)
+        print (a) ;
+    else
+        amir(a,b,c-a) ;
+}
+fun mohammad(a:int,t_b:int,c:int):int
+{
+    b[t_b]:int ;
+    b[0]=1 ;
+    b[1]=1 ;
+    for (i=2;i<a;i=i+1)
+    {
+        b[i]=b[i-1]+b[i-2] ;
+        j=b[i] ;
+        print(j) ;
+    }
+    amir(a,b,c) ;
+    return b[c] ;
+}
+main() {
+    a,c:int;
+    a=3 ;
+    c=1 ;
+    while(mohammad(a,a+3,c)<100)
+    {
+		{
+			 __[mohammad(a,a+3,c)]:int ;
+		}
+        a=a+c ;
+        c=c+1+(a*2<5 or a<c<7 and a-1) ;
+    }
+	res1=9.8:float;
+	on(mohammad(a,a+3,c))
+	{
+		where 5:
+			print(a) ;
+		where 90:
+			print(c) ;
+	};
+}

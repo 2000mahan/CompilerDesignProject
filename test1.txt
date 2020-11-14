@@ -1,21 +1,16 @@
-19a + b == 9
+i,j,k[50]:int;
+res2:float;
 
-while ()
-
-_x-+-x_
-
-9.7.9 - 0.0
-
-For for ]-90[
-
-and or -==
-
-c++ ;
-
-ERROR+1231231239.509
-
-5!=not True
-
-9 - * - 8 _
-
-fun * <= 0
+main() {
+    k[0]=1 ;
+    k[1]=1 ;
+    for (i=2;k[0]<i<10;i=i+1)
+    {
+        i:int;
+        k[i]=k[i-1]+k[i-2] ;
+        j=k[i] ;
+        print(j) ;
+    }
+	for (i in k)
+		print(i) ;
+}
