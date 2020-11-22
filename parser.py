@@ -5,6 +5,58 @@ from lexer import Lexer
 class Parser:
     tokens = Lexer().tokens
 
+    precedence = (
+
+        # Statements
+        ('left', "WHILE", "FOR", "ON"),
+        ('left', "IN"),
+        ('left', "IF"),
+        ('left', "ELSE"),
+        ('left', "ELSEIF"),
+        ('left', "WHERE"),
+        ('left', "PRINT"),
+        ('left', "RETURN"),
+        ('right', "ASSIGN"),
+
+        # High-level Boolean Operators
+        ('left', "OR"),
+        ('left', "AND"),
+
+        # Low-level Boolean Operators
+        ('left', "GT", "LT", "NE", "EQ", "LE", "GE"),
+
+        # Numeric Operators
+        ('left', "MOD"),
+        ('left', "SUM", "SUB"),
+        ('left', "MUL", "DIV"),
+
+        # Braces
+        ('left', "LCB", "RCB"),
+        ('left', "LSB", "RSB"),
+        ('left', "LRB", "RRB"),
+
+        # Atoms
+        ('left', "INTEGERNUMBER"),
+        ('left', "FLOATNUMBER"),
+        ('left', "TRUE", "FALSE"),
+
+        # Type Identifiers
+        ('left', "INTEGER"),
+        ('left', "FLOAT"),
+        ('left', "BOOLEAN"),
+
+        # Identifier
+        ('left', "ID"),
+        ('left', "FUNCTION"),
+        ('left', "MAIN"),
+
+        # Low-level Misc
+        ("left", "SEMICOLON", "COLON"),
+
+        # Error
+        ("left", "ERROR")
+    )
+
     def __init__(self):
         pass
 
@@ -46,9 +98,9 @@ class Parser:
         print("idlist COLON type SEMICOLON")
 
     def p_funcdec(self, p):
-        """funcdec : FUNCTION LRB paramdecs RRB COLON type block
+        """funcdec : FUNCTION ID LRB paramdecs RRB COLON type block
                    | FUNCTION ID LRB paramdecs RRB block"""
-        print("FUNCTION LRB paramdecs RRB COLON type block| FUNCTION ID LRB paramdecs RRB block")
+        print("FUNCTION ID LRB paramdecs RRB COLON type block| FUNCTION ID LRB paramdecs RRB block")
 
     def p_paramdecs(self, p):
         """paramdecs : paramdecslist
@@ -175,3 +227,16 @@ class Parser:
     def build(self, **kwargs):
         self.parser = yacc.yacc(module=self, **kwargs)
         return self.parser
+
+lexer = Lexer().build()
+file = open('test3.txt')
+text_input = file.read()
+file.close()
+lexer.input(text_input)
+
+parser = Parser()
+parser.build().parse(text_input, lexer, False)
+
+
+
+
