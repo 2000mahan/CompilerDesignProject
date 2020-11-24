@@ -61,14 +61,14 @@ class Parser:
         pass
 
     def p_program(self, p):
-        """program : declist MAIN LRB RRB block"""
-        print("declist MAIN LRB RRB block")
+        """program : declist MAIN LRB RRB block
+                    | MAIN LRB RRB block"""
+        print("declist MAIN LRB RRB block| MAIN LRB RRB block")
 
     def p_declist(self, p):
         """declist : dec
-                   | declist dec
-                   | empty"""
-        print("dec| declist dec| empty")
+                   | declist dec"""
+        print("dec| declist dec")
 
     def p_dec(self, p):
         """dec : vardec
@@ -122,10 +122,9 @@ class Parser:
         print("LCB stmtlist RCB")
 
     def p_stmtlist(self, p):
-        """stmtlist : stmt
-                    | stmtlist stmt
+        """stmtlist : stmtlist stmt
                     | empty"""
-        print("stmt| stmtlist stmt| empty")
+        print("stmtlist stmt| empty")
 
     def p_lvalue(self, p):
         """lvalue : ID
@@ -137,10 +136,9 @@ class Parser:
         print("WHERE const COLON stmtlist")
 
     def p_cases(self, p):
-        """cases : case
-                | cases case
+        """cases : cases case
                 | empty"""
-        print("casecases case| empty")
+        print("cases case| empty")
 
 
     def p_stmt(self, p):
@@ -159,8 +157,7 @@ class Parser:
 
 
     def p_elseiflist(self, p):
-        """elseiflist : ELSEIF LRB exp RRB stmt
-                      | elseiflist ELSEIF LRB exp RRB stmt
+        """elseiflist : elseiflist ELSEIF LRB exp RRB stmt
                       | empty"""
         print("ELSEIF LRB exp RRB stmt| elseiflist ELSEIF LRB exp RRB stmt| empty")
 
