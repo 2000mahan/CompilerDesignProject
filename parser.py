@@ -16,15 +16,16 @@ class Parser:
         ('left', "WHERE"),
         ('left', "PRINT"),
         ('left', "RETURN"),
-        ('right', "ASSIGN"),
+
 
         # High-level Boolean Operators
         ('left', "OR"),
         ('left', "AND"),
         ('left', "NOT"),
 
-        # Low-level Boolean Operators
+        # Low-level Boolean Operators & Assignment
         ('left', "GT", "LT", "NE", "EQ", "LE", "GE"),
+        ('right', "ASSIGN"),
 
         # Numeric Operators
         ('left', "MOD"),
@@ -163,19 +164,14 @@ class Parser:
         print("elseiflist ELSEIF LRB exp RRB stmt| empty")
 
 
-    def p_relopexp(self, p):
-        """relopexp : exp GT exp
-                    | exp LT exp
-                    | exp NE exp
-                    | exp EQ exp
-                    | exp LE exp
-                    | exp GE exp
-                    | relopexp relop exp"""
-        print("exp relop exp| relopexp relop exp")
-
-
     def p_exp(self, p):
         """exp : lvalue ASSIGN exp
+               | exp GT exp
+               | exp LT exp
+               | exp NE exp
+               | exp EQ exp
+               | exp LE exp
+               | exp GE exp
                | exp AND exp
                | exp OR exp
                | exp SUM exp
@@ -183,7 +179,6 @@ class Parser:
                | exp MUL exp
                | exp DIV exp
                | exp MOD exp
-               | relopexp
                | const
                | lvalue
                | ID LRB explist RRB
@@ -191,7 +186,7 @@ class Parser:
                | ID LRB RRB
                | SUB exp
                | NOT exp"""
-        print("lvalue ASSIGN exp| exp operator exp| relopexp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
+        print("lvalue ASSIGN exp| exp GT exp| exp LT exp| exp NE exp| exp EQ exp| exp LE exp| exp GE exp| exp AND exp| exp OR exp| exp SUM exp| exp SUB exp| exp MUL exp| exp DIV exp| exp MOD exp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
 
     def p_const(self, p):
         """const : INTEGERNUMBER
@@ -199,15 +194,6 @@ class Parser:
                  | TRUE
                  | FALSE"""
         print("INTEGERNUMBER| FLOATNUMBER| TRUE| FALSE")
-
-    def p_relop(self, p):
-        """relop : GT
-                 | LT
-                 | NE
-                 | EQ
-                 | LE
-                 | GE"""
-        print("GT| LT| NE| EQ| LE| GE")
 
     def p_explist(self, p):
         """explist : exp
