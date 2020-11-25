@@ -21,6 +21,7 @@ class Parser:
         # High-level Boolean Operators
         ('left', "OR"),
         ('left', "AND"),
+        ('left', "NOT"),
 
         # Low-level Boolean Operators
         ('left', "GT", "LT", "NE", "EQ", "LE", "GE"),
@@ -163,7 +164,12 @@ class Parser:
 
 
     def p_relopexp(self, p):
-        """relopexp : exp relop exp
+        """relopexp : exp GT exp
+                    | exp LT exp
+                    | exp NE exp
+                    | exp EQ exp
+                    | exp LE exp
+                    | exp GE exp
                     | relopexp relop exp"""
         print("exp relop exp| relopexp relop exp")
 
