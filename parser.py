@@ -159,7 +159,7 @@ class Parser:
     def p_elseiflist(self, p):
         """elseiflist : elseiflist ELSEIF LRB exp RRB stmt
                       | empty"""
-        print("ELSEIF LRB exp RRB stmt| elseiflist ELSEIF LRB exp RRB stmt| empty")
+        print("elseiflist ELSEIF LRB exp RRB stmt| empty")
 
 
     def p_relopexp(self, p):
@@ -170,7 +170,13 @@ class Parser:
 
     def p_exp(self, p):
         """exp : lvalue ASSIGN exp
-               | exp operator exp
+               | exp AND exp
+               | exp OR exp
+               | exp SUM exp
+               | exp SUB exp
+               | exp MUL exp
+               | exp DIV exp
+               | exp MOD exp
                | relopexp
                | const
                | lvalue
@@ -180,16 +186,6 @@ class Parser:
                | SUB exp
                | NOT exp"""
         print("lvalue ASSIGN exp| exp operator exp| relopexp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
-
-    def p_operator(self, p):
-        """operator : AND
-                    | OR
-                    | SUM
-                    | SUB
-                    | MUL
-                    | DIV
-                    | MOD"""
-        print("AND| OR| SUM| SUB| MUL| DIV| MOD")
 
     def p_const(self, p):
         """const : INTEGERNUMBER
