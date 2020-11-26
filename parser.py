@@ -10,9 +10,9 @@ class Parser:
         # Statements
         # ('left', "WHILE", "FOR", "ON"),
         # ('left', "IN"),
-        # ('left', "IF"),
-        ('left', "ELSEIF"),
+        ('left', "IF"),
         ('left', "ELSE"),
+        ('left', "ELSEIF"),
         # ('left', "WHERE"),
         # ('left', "PRINT"),
         # ('left', "RETURN"),
@@ -31,9 +31,9 @@ class Parser:
         ('left', "MUL", "DIV"),
 
         # Braces
-        # ('left', "LCB", "RCB"),
-        # ('left', "LSB", "RSB"),
-        # ('left', "LRB", "RRB"),
+        ('left', "LCB", "RCB"),
+        ('left', "LSB", "RSB"),
+        ('left', "LRB", "RRB"),
 
         # Atoms
         ('left', "INTEGERNUMBER"),

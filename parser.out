@@ -4324,8 +4324,6 @@ state 152
     (41) stmt -> IF LRB exp RRB stmt elseiflist . ELSE stmt
     (43) elseiflist -> elseiflist . ELSEIF LRB exp RRB stmt
 
-  ! shift/reduce conflict for ELSE resolved as shift
-  ! shift/reduce conflict for ELSEIF resolved as shift
     RCB             reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     RETURN          reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHILE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
@@ -4342,12 +4340,12 @@ state 152
     FLOATNUMBER     reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     TRUE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     FALSE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
+    ELSE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
+    ELSEIF          reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHERE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
-    ELSE            shift and go to state 159
-    ELSEIF          shift and go to state 160
 
-  ! ELSE            [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
-  ! ELSEIF          [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
+  ! ELSE            [ shift and go to state 159 ]
+  ! ELSEIF          [ shift and go to state 160 ]
 
 
 state 153
@@ -4980,8 +4978,3 @@ state 171
     ELSEIF          reduce using rule 43 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
     WHERE           reduce using rule 43 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for ELSE in state 152 resolved as shift
-WARNING: shift/reduce conflict for ELSEIF in state 152 resolved as shift
