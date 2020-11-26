@@ -205,7 +205,7 @@ class Parser:
         pass
 
     def p_error(self, p):
-        print("Error")
+        print("Error", p.type, p.lexpos)
 
     # raise Exception('ParsingError: invalid grammar at ', p)
 
