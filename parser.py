@@ -8,15 +8,14 @@ class Parser:
     precedence = (
 
         # Statements
-        ('left', "WHILE", "FOR", "ON"),
-        ('left', "IN"),
-        ('left', "IF"),
-        ('left', "ELSE"),
+        # ('left', "WHILE", "FOR", "ON"),
+        # ('left', "IN"),
+        # ('left', "IF"),
         ('left', "ELSEIF"),
-        ('left', "WHERE"),
-        ('left', "PRINT"),
-        ('left', "RETURN"),
-
+        ('left', "ELSE"),
+        # ('left', "WHERE"),
+        # ('left', "PRINT"),
+        # ('left', "RETURN"),
 
         # High-level Boolean Operators
         ('left', "OR"),
@@ -25,7 +24,6 @@ class Parser:
 
         # Low-level Boolean Operators & Assignment
         ('left', "GT", "LT", "NE", "EQ", "LE", "GE"),
-        ('right', "ASSIGN"),
 
         # Numeric Operators
         ('left', "MOD"),
@@ -33,9 +31,9 @@ class Parser:
         ('left', "MUL", "DIV"),
 
         # Braces
-        ('left', "LCB", "RCB"),
-        ('left', "LSB", "RSB"),
-        ('left', "LRB", "RRB"),
+        # ('left', "LCB", "RCB"),
+        # ('left', "LSB", "RSB"),
+        # ('left', "LRB", "RRB"),
 
         # Atoms
         ('left', "INTEGERNUMBER"),
@@ -43,17 +41,19 @@ class Parser:
         ('left', "TRUE", "FALSE"),
 
         # Type Identifiers
-        ('left', "INTEGER"),
-        ('left', "FLOAT"),
-        ('left', "BOOLEAN"),
+        # ('left', "INTEGER"),
+        # ('left', "FLOAT"),
+        # ('left', "BOOLEAN"),
 
         # Identifier
         ('left', "ID"),
-        ('left', "FUNCTION"),
-        ('left', "MAIN"),
+        ('right', "ASSIGN"),
+
+        # ('left', "FUNCTION"),
+        # ('left', "MAIN"),
 
         # Low-level Misc
-        ("left", "SEMICOLON", "COLON"),
+        # ("left", "SEMICOLON", "COLON"),
 
         # Error
         ("left", "ERROR")
@@ -142,7 +142,6 @@ class Parser:
                 | empty"""
         print("cases case| empty")
 
-
     def p_stmt(self, p):
         """stmt : RETURN exp SEMICOLON
                 | exp SEMICOLON
@@ -155,14 +154,13 @@ class Parser:
                 | IF LRB exp RRB stmt elseiflist
                 | IF LRB exp RRB stmt elseiflist ELSE stmt
                 | PRINT LRB ID RRB SEMICOLON"""
-        print("RETURN exp SEMICOLON| exp SEMICOLON| block| vardec| WHILE LRB exp RRB stmt| ON LRB exp RRB LCB cases RCB SEMICOLON| FOR LRB exp SEMICOLON exp SEMICOLON exp RRB stmt| FOR LRB ID IN ID RRB stmt| IF LRB exp RRB stmt elseiflist| IF LRB exp RRB stmt elseiflist ELSE stmt| PRINT LRB ID RRB")
-
+        print(
+            "RETURN exp SEMICOLON| exp SEMICOLON| block| vardec| WHILE LRB exp RRB stmt| ON LRB exp RRB LCB cases RCB SEMICOLON| FOR LRB exp SEMICOLON exp SEMICOLON exp RRB stmt| FOR LRB ID IN ID RRB stmt| IF LRB exp RRB stmt elseiflist| IF LRB exp RRB stmt elseiflist ELSE stmt| PRINT LRB ID RRB")
 
     def p_elseiflist(self, p):
         """elseiflist : elseiflist ELSEIF LRB exp RRB stmt
                       | empty"""
         print("elseiflist ELSEIF LRB exp RRB stmt| empty")
-
 
     def p_exp(self, p):
         """exp : lvalue ASSIGN exp
@@ -186,7 +184,8 @@ class Parser:
                | ID LRB RRB
                | SUB exp
                | NOT exp"""
-        print("lvalue ASSIGN exp| exp GT exp| exp LT exp| exp NE exp| exp EQ exp| exp LE exp| exp GE exp| exp AND exp| exp OR exp| exp SUM exp| exp SUB exp| exp MUL exp| exp DIV exp| exp MOD exp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
+        print(
+            "lvalue ASSIGN exp| exp GT exp| exp LT exp| exp NE exp| exp EQ exp| exp LE exp| exp GE exp| exp AND exp| exp OR exp| exp SUM exp| exp SUB exp| exp MUL exp| exp DIV exp| exp MOD exp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
 
     def p_const(self, p):
         """const : INTEGERNUMBER
@@ -207,11 +206,13 @@ class Parser:
 
     def p_error(self, p):
         print("Error")
-       # raise Exception('ParsingError: invalid grammar at ', p)
+
+    # raise Exception('ParsingError: invalid grammar at ', p)
 
     def build(self, **kwargs):
         self.parser = yacc.yacc(module=self, **kwargs)
         return self.parser
+
 
 lexer = Lexer().build()
 file = open('test2.txt')
@@ -221,7 +222,3 @@ lexer.input(text_input)
 
 parser = Parser()
 parser.build().parse(text_input, lexer, False)
-
-
-
-

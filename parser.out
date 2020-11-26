@@ -2786,21 +2786,16 @@ state 92
     GE              reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     AND             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     OR              reduce using rule 45 (exp -> lvalue ASSIGN exp .)
+    SUM             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
+    SUB             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
+    MUL             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
+    DIV             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
+    MOD             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     COLON           reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     COMMA           reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     RRB             reduce using rule 45 (exp -> lvalue ASSIGN exp .)
     SEMICOLON       reduce using rule 45 (exp -> lvalue ASSIGN exp .)
-    SUM             shift and go to state 59
-    SUB             shift and go to state 60
-    MUL             shift and go to state 61
-    DIV             shift and go to state 62
-    MOD             shift and go to state 63
 
-  ! SUM             [ reduce using rule 45 (exp -> lvalue ASSIGN exp .) ]
-  ! SUB             [ reduce using rule 45 (exp -> lvalue ASSIGN exp .) ]
-  ! MUL             [ reduce using rule 45 (exp -> lvalue ASSIGN exp .) ]
-  ! DIV             [ reduce using rule 45 (exp -> lvalue ASSIGN exp .) ]
-  ! MOD             [ reduce using rule 45 (exp -> lvalue ASSIGN exp .) ]
   ! GT              [ shift and go to state 51 ]
   ! LT              [ shift and go to state 52 ]
   ! NE              [ shift and go to state 53 ]
@@ -2809,6 +2804,11 @@ state 92
   ! GE              [ shift and go to state 56 ]
   ! AND             [ shift and go to state 57 ]
   ! OR              [ shift and go to state 58 ]
+  ! SUM             [ shift and go to state 59 ]
+  ! SUB             [ shift and go to state 60 ]
+  ! MUL             [ shift and go to state 61 ]
+  ! DIV             [ shift and go to state 62 ]
+  ! MOD             [ shift and go to state 63 ]
 
 
 state 93
@@ -3046,7 +3046,6 @@ state 103
     (12) iddec -> ID . ASSIGN exp
 
     LRB             shift and go to state 48
-    ASSIGN          reduce using rule 27 (lvalue -> ID .)
     SEMICOLON       reduce using rule 27 (lvalue -> ID .)
     GT              reduce using rule 27 (lvalue -> ID .)
     LT              reduce using rule 27 (lvalue -> ID .)
@@ -3064,8 +3063,9 @@ state 103
     LSB             shift and go to state 119
     COLON           reduce using rule 10 (iddec -> ID .)
     COMMA           reduce using rule 10 (iddec -> ID .)
+    ASSIGN          shift and go to state 18
 
-  ! ASSIGN          [ shift and go to state 18 ]
+  ! ASSIGN          [ reduce using rule 27 (lvalue -> ID .) ]
 
 
 state 104
@@ -4324,6 +4324,8 @@ state 152
     (41) stmt -> IF LRB exp RRB stmt elseiflist . ELSE stmt
     (43) elseiflist -> elseiflist . ELSEIF LRB exp RRB stmt
 
+  ! shift/reduce conflict for ELSE resolved as shift
+  ! shift/reduce conflict for ELSEIF resolved as shift
     RCB             reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     RETURN          reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHILE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
@@ -4340,12 +4342,12 @@ state 152
     FLOATNUMBER     reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     TRUE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     FALSE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
-    ELSE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
-    ELSEIF          reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHERE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
+    ELSE            shift and go to state 159
+    ELSEIF          shift and go to state 160
 
-  ! ELSE            [ shift and go to state 159 ]
-  ! ELSEIF          [ shift and go to state 160 ]
+  ! ELSE            [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
+  ! ELSEIF          [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
 
 
 state 153
@@ -4978,3 +4980,8 @@ state 171
     ELSEIF          reduce using rule 43 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
     WHERE           reduce using rule 43 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
 
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 152 resolved as shift
+WARNING: shift/reduce conflict for ELSEIF in state 152 resolved as shift
