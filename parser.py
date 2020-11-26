@@ -7,12 +7,16 @@ class Parser:
 
     precedence = (
 
+        # Braces
+        ('left', "LCB", "RCB"),
+        ('left', "LSB", "RSB"),
+        ('left', "LRB", "RRB"),
+        
         # Statements
         # ('left', "WHILE", "FOR", "ON"),
         # ('left', "IN"),
+        ('left', "ELSEIF", "ELSE"),
         ('left', "IF"),
-        ('left', "ELSE"),
-        ('left', "ELSEIF"),
         # ('left', "WHERE"),
         # ('left', "PRINT"),
         # ('left', "RETURN"),
@@ -29,12 +33,7 @@ class Parser:
         ('left', "MOD"),
         ('left', "SUM", "SUB"),
         ('left', "MUL", "DIV"),
-
-        # Braces
-        ('left', "LCB", "RCB"),
-        ('left', "LSB", "RSB"),
-        ('left', "LRB", "RRB"),
-
+        
         # Atoms
         ('left', "INTEGERNUMBER"),
         ('left', "FLOATNUMBER"),

@@ -4340,12 +4340,12 @@ state 152
     FLOATNUMBER     reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     TRUE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     FALSE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
-    ELSE            reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
-    ELSEIF          reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHERE           reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .)
+    ELSE            shift and go to state 159
+    ELSEIF          shift and go to state 160
 
-  ! ELSE            [ shift and go to state 159 ]
-  ! ELSEIF          [ shift and go to state 160 ]
+  ! ELSE            [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
+  ! ELSEIF          [ reduce using rule 40 (stmt -> IF LRB exp RRB stmt elseiflist .) ]
 
 
 state 153
