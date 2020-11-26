@@ -154,7 +154,7 @@ class Parser:
                 | FOR LRB ID IN ID RRB stmt
                 | IF LRB exp RRB stmt elseiflist
                 | IF LRB exp RRB stmt elseiflist ELSE stmt
-                | PRINT LRB ID RRB"""
+                | PRINT LRB ID RRB SEMICOLON"""
         print("RETURN exp SEMICOLON| exp SEMICOLON| block| vardec| WHILE LRB exp RRB stmt| ON LRB exp RRB LCB cases RCB SEMICOLON| FOR LRB exp SEMICOLON exp SEMICOLON exp RRB stmt| FOR LRB ID IN ID RRB stmt| IF LRB exp RRB stmt elseiflist| IF LRB exp RRB stmt elseiflist ELSE stmt| PRINT LRB ID RRB")
 
 
@@ -206,7 +206,7 @@ class Parser:
         pass
 
     def p_error(self, p):
-        print("p.value")
+        print("Error")
        # raise Exception('ParsingError: invalid grammar at ', p)
 
     def build(self, **kwargs):
@@ -214,7 +214,7 @@ class Parser:
         return self.parser
 
 lexer = Lexer().build()
-file = open('test3.txt')
+file = open('test2.txt')
 text_input = file.read()
 file.close()
 lexer.input(text_input)
