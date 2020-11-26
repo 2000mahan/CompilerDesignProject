@@ -85,8 +85,9 @@ class Parser:
         print("INTEGER| FLOAT| BOOLEAN")
 
     def p_iddec(self, p):
-        """iddec : lvalue
-                 | lvalue ASSIGN exp"""
+        """iddec : ID
+                 | ID LSB exp RSB
+                 | ID ASSIGN exp"""
         print("ID| ID LSB exp RSB| ID ASSIGN exp")
 
     def p_idlist(self, p):
