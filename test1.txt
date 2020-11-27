@@ -1,0 +1,16 @@
+i,j,k[50]:int;
+res2:float;
+
+main() {
+    k[0]=1 ;
+    k[1]=1 ;
+    for (i=2;k[0]<i<10;i=i+1)
+    {
+        i:int;
+        k[i]=k[i-1]+k[i-2] ;
+        j=k[i] ;
+        print(j) ;
+    }
+	for (i in k)
+		print(i) ;
+}

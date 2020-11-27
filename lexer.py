@@ -25,8 +25,8 @@ class Lexer:
         'bool': 'BOOLEAN',
         # Other Keywords
         'print': 'PRINT',
-        'true': 'TRUE',
-        'false': 'FALSE',
+        'True': 'TRUE',
+        'False': 'FALSE',
         'return': 'RETURN',
         'fun': 'FUNCTION',
         'main': 'MAIN',
@@ -35,6 +35,7 @@ class Lexer:
         'or': 'OR',
         'not': 'NOT',
         'in': 'IN',
+        'where': 'WHERE'
     }
     # Colons
     t_SEMICOLON = r';'
@@ -42,47 +43,72 @@ class Lexer:
     t_COMMA = r','
     # Operators
     t_MUL = r'\*'
-    t_DIV = r'\/'
+    t_DIV = r'/'
     t_SUM = r'\+'
     t_SUB = r'\-'
+    t_MOD = r'%'
     t_ASSIGN = r'='
-    t_LT = r'\<'
-    t_GT = r'\>'
+    t_GT = r'>'
+    t_GE = r'>='
+    t_LT = r'<'
+    t_LE = r'<='
+    t_EQ = r'=='
+    t_NE = r'!='
     # Brackets
-    t_LCB = r'\{'
-    t_RCB = r'\}'
+    t_LCB = r'{'
+    t_RCB = r'}'
     t_LRB = r'\('
     t_RRB = r'\)'
-    t_LSB = r'\[>'
-    t_RSB = r'\]>'
+    t_LSB = r'\['
+    t_RSB = r'\]'
+
+    def t_TRUE(self, t):
+        r'True'
+        return t
+
+    def t_FALSE(self, t):
+        r'False'
+        return t
+
+    def t_ERROR(self, t):
+        r"""([0-9]{10,})(\.[0-9]+)
+       |([0-9]{10,})
+       |([0-9]+)(\.[0-9]+){2,}
+        |([A-Z])+[a-zA-Z_0-9]+
+        |[0-9]+[a-z_A-Z][a-zA-Z_0-9]*
+        |[\+\-\%\/\*](\s*[\+\-\%\/\*]+)+
+        |ERROR
+        """
+        return t
+
+    def t_newline(self, t):
+        r""""\n+"""
+        t.lexer.lineno += len(t.value)
+
+    t_ignore = '\n \t \r '
 
     def t_FLOATNUMBER(self, t):
-        
+        r"""[0-9]{1,9}\.[0-9]+"""
+        t.value = float(t.value)
         return t
 
     def t_INTEGERNUMBER(self, t):
-        r'[+-]?[1-9][0-9]{8}'
+        r"""[0-9]{1,9}"""
+        t.value = int(t.value)
         return t
 
     def t_ID(self, t):
-        r'[a-z][a-zA-Z_0-9]*'
+        r"""[_a-z][a-zA-Z_0-9]*"""
         if t.value in self.reserved:
-            t.type = self.reserved[t.value]  # Check for reserved words
+            t.type = self.reserved[t.value]
         return t
 
-    # Define a rule so we can track line numbers
-    def t_newline(self, t):
-        r'\n+'
-        t.lexer.lineno += len(t.value)
-
-    # A string containing ignored characters (spaces and tabs)
-    t_ignore = '\t'
-
-    # Error handling rule
     def t_error(self, t):
         raise Exception('Error at', t.value)
 
-    # Build the lexer
     def build(self, **kwargs):
-        self.lexer = lex.lex(module = self, **kwargs)
+        """
+        build the lexer
+        """
+        self.lexer = lex.lex(module=self, **kwargs)
         return self.lexer
