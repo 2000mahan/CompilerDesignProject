@@ -7,12 +7,16 @@ class Parser:
 
     precedence = (
 
+        # Braces
+        ('left', "LCB", "RCB"),
+        ('left', "LSB", "RSB"),
+        ('left', "LRB", "RRB"),
+        
         # Statements
         # ('left', "WHILE", "FOR", "ON"),
         # ('left', "IN"),
-        # ('left', "IF"),
-        ('left', "ELSEIF"),
-        ('left', "ELSE"),
+        ('left', "ELSEIF", "ELSE"),
+        ('left', "IF"),
         # ('left', "WHERE"),
         # ('left', "PRINT"),
         # ('left', "RETURN"),
@@ -29,12 +33,7 @@ class Parser:
         ('left', "MOD"),
         ('left', "SUM", "SUB"),
         ('left', "MUL", "DIV"),
-
-        # Braces
-        # ('left', "LCB", "RCB"),
-        # ('left', "LSB", "RSB"),
-        # ('left', "LRB", "RRB"),
-
+        
         # Atoms
         ('left', "INTEGERNUMBER"),
         ('left', "FLOATNUMBER"),
@@ -85,9 +84,8 @@ class Parser:
         print("INTEGER| FLOAT| BOOLEAN")
 
     def p_iddec(self, p):
-        """iddec : ID
-                 | ID LSB exp RSB
-                 | ID ASSIGN exp"""
+        """iddec : lvalue
+                 | lvalue ASSIGN exp"""
         print("ID| ID LSB exp RSB| ID ASSIGN exp")
 
     def p_idlist(self, p):
@@ -179,9 +177,9 @@ class Parser:
                | exp MOD exp
                | const
                | lvalue
-               | ID LRB explist RRB
+               | lvalue LRB explist RRB
                | LRB exp RRB
-               | ID LRB RRB
+               | lvalue LRB RRB
                | SUB exp
                | NOT exp"""
         print(
@@ -205,7 +203,7 @@ class Parser:
         pass
 
     def p_error(self, p):
-        print("Error")
+        print("Error", p.type, p.lexpos)
 
     # raise Exception('ParsingError: invalid grammar at ', p)
 
@@ -215,7 +213,7 @@ class Parser:
 
 
 lexer = Lexer().build()
-file = open('test2.txt')
+file = open('test3.txt')
 text_input = file.read()
 file.close()
 lexer.input(text_input)
