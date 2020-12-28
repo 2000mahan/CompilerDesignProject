@@ -1,65 +1,33 @@
 from ply import yacc
 from lexer import Lexer
+from nonTerminal import NonTerminal
+from codeGenerator import CodeGenerator
 
 
 class Parser:
     tokens = Lexer().tokens
 
     precedence = (
-
-        # Braces
-        ('left', "LCB", "RCB"),
-        ('left', "LSB", "RSB"),
-        ('left', "LRB", "RRB"),
-        
-        # Statements
-        # ('left', "WHILE", "FOR", "ON"),
-        # ('left', "IN"),
-        ('left', "ELSEIF", "ELSE"),
+        ('right', "ASSIGN"),
         ('left', "IF"),
-        # ('left', "WHERE"),
-        # ('left', "PRINT"),
-        # ('left', "RETURN"),
-
-        # High-level Boolean Operators
         ('left', "OR"),
         ('left', "AND"),
         ('left', "NOT"),
-
-        # Low-level Boolean Operators & Assignment
         ('left', "GT", "LT", "NE", "EQ", "LE", "GE"),
-
-        # Numeric Operators
         ('left', "MOD"),
         ('left', "SUM", "SUB"),
+        ('left', "ELSEIF", "ELSE"),
         ('left', "MUL", "DIV"),
-        
-        # Atoms
-        ('left', "INTEGERNUMBER"),
-        ('left', "FLOATNUMBER"),
-        ('left', "TRUE", "FALSE"),
-
-        # Type Identifiers
-        # ('left', "INTEGER"),
-        # ('left', "FLOAT"),
-        # ('left', "BOOLEAN"),
-
-        # Identifier
-        ('left', "ID"),
-        ('right', "ASSIGN"),
-
-        # ('left', "FUNCTION"),
-        # ('left', "MAIN"),
-
-        # Low-level Misc
-        # ("left", "SEMICOLON", "COLON"),
-
-        # Error
-        ("left", "ERROR")
     )
 
     def __init__(self):
-        pass
+        self.tempCount = 0
+        self.codeGenerator = CodeGenerator()
+
+    def new_temp(self):
+        temp = "T" + str(self.tempCount)
+        self.tempCount += 1
+        return temp
 
     def p_program(self, p):
         """program : declist MAIN LRB RRB block
@@ -170,12 +138,6 @@ class Parser:
                | exp GE exp
                | exp AND exp
                | exp OR exp
-               | exp SUM exp
-               | exp SUB exp
-               | exp MUL exp
-               | exp DIV exp
-               | exp MOD exp
-               | const
                | lvalue
                | lvalue LRB explist RRB
                | LRB exp RRB
@@ -185,12 +147,56 @@ class Parser:
         print(
             "lvalue ASSIGN exp| exp GT exp| exp LT exp| exp NE exp| exp EQ exp| exp LE exp| exp GE exp| exp AND exp| exp OR exp| exp SUM exp| exp SUB exp| exp MUL exp| exp DIV exp| exp MOD exp| const| lvalue| ID LRB explist RRB| LRB exp RRB| ID LRB RRB| SUB exp| NOT exp")
 
+    def p_exp_sum(self, p):
+        "exp : exp SUM exp"
+        print(3)
+        print(p[1], p[3])
+        pass
+       # self.codeGenerator.generate_arithmetic_code(p, self.new_temp())
+
+    def p_exp_sub(self, p):
+        "exp : exp SUB exp"
+        pass
+        #self.codeGenerator.generate_arithmetic_code(p, self.new_temp())
+
+    def p_exp_mul(self, p):
+        "exp : exp MUL exp"
+        pass
+        #self.codeGenerator.generate_arithmetic_code(p, self.new_temp())
+
+    def p_exp_div(self, p):
+        "exp : exp DIV exp"
+        pass
+        #self.codeGenerator.generate_arithmetic_code(p, self.new_temp())
+
+    def p_exp_mod(self, p):
+        "exp : exp MOD exp"
+        pass
+        #self.codeGenerator.generate_arithmetic_code(p, self.new_temp())
+
     def p_const(self, p):
-        """const : INTEGERNUMBER
-                 | FLOATNUMBER
-                 | TRUE
-                 | FALSE"""
-        print("INTEGERNUMBER| FLOATNUMBER| TRUE| FALSE")
+        """exp : const"""
+        p[0] = NonTerminal()
+        p[0].value = p[1].value
+        print(2)
+        print(p[0])
+
+    def p_const_integer(self, p):
+        """const : INTEGERNUMBER"""
+        p[0] = NonTerminal()
+        p[0].value = p[1]
+        print(1)
+
+
+    def p_const_float(self, p):
+        """const : FLOATNUMBER"""
+        p[0] = NonTerminal()
+        p[0].value = p[1]
+
+    def p_const_trueAndFalse(self, p):
+        """const : TRUE
+        | FALSE"""
+        print("TRUE| FALSE")
 
     def p_explist(self, p):
         """explist : exp
@@ -212,11 +218,11 @@ class Parser:
         return self.parser
 
 
-lexer = Lexer().build()
-file = open('test3.txt')
-text_input = file.read()
-file.close()
-lexer.input(text_input)
+#lexer = Lexer().build()
+#file = open('test2.txt')
+#text_input = file.read()
+#file.close()
+#lexer.input(text_input)
 
-parser = Parser()
-parser.build().parse(text_input, lexer, False)
+#parser = Parser()
+#parser.build().parse(text_input, lexer, False)
