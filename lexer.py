@@ -89,12 +89,12 @@ class Lexer:
 
     def t_FLOATNUMBER(self, t):
         r"""[0-9]{1,9}\.[0-9]+"""
-        t.value = float(t.value)
+        t.value = str(float(t.value))
         return t
 
     def t_INTEGERNUMBER(self, t):
         r"""[0-9]{1,9}"""
-        t.value = int(t.value)
+        t.value = str(int(t.value))
         return t
 
     def t_ID(self, t):
