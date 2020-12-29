@@ -4226,8 +4226,6 @@ state 148
     (40) stmt -> IF LRB exp RRB stmt elseiflist . ELSE stmt
     (42) elseiflist -> elseiflist . ELSEIF LRB exp RRB stmt
 
-  ! shift/reduce conflict for ELSE resolved as shift
-  ! shift/reduce conflict for ELSEIF resolved as shift
     RCB             reduce using rule 39 (stmt -> IF LRB exp RRB stmt elseiflist .)
     RETURN          reduce using rule 39 (stmt -> IF LRB exp RRB stmt elseiflist .)
     WHILE           reduce using rule 39 (stmt -> IF LRB exp RRB stmt elseiflist .)
@@ -4878,8 +4876,3 @@ state 167
     ELSEIF          reduce using rule 42 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
     WHERE           reduce using rule 42 (elseiflist -> elseiflist ELSEIF LRB exp RRB stmt .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for ELSE in state 148 resolved as shift
-WARNING: shift/reduce conflict for ELSEIF in state 148 resolved as shift
