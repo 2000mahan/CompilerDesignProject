@@ -1,5 +1,5 @@
 from lexer import Lexer
-from parser import Parser
+from parse import Parser
 
 lexer = Lexer().build()
 file = open('test3.txt')
