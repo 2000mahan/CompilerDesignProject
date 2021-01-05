@@ -40,20 +40,20 @@ class Parser:
     def p_program(self, p):
         """program : declist MAIN LRB RRB block
                     | MAIN LRB RRB block"""
-        #print("declist MAIN LRB RRB block| MAIN LRB RRB block")
-        pass
+        self.codeGenerator.generate_program(p)
+
 
     def p_declist(self, p):
         """declist : dec
                    | declist dec"""
-        #print("dec| declist dec")
-        pass
+        self.codeGenerator.generate_declist(p)
 
-    def p_dec(self, p):
-        """dec : vardec
-               | funcdec"""
+    def p_dec_vardec(self, p):
+        """dec : vardec"""
+        self.codeGenerator.generate_dec_from_vardec(p)
 
-        #print("vardec| funcdec")
+    def p_dec_funcdec(self, p):
+        """d : funcdec"""
         pass
 
     def p_type(self, p):
@@ -70,7 +70,7 @@ class Parser:
 
     def p_iddec_assign(self, p):
         """iddec : lvalue ASSIGN exp"""
-        self.codeGenerator.generate_assign(p)
+        self.codeGenerator.generate_assign(p, True)
 
     def p_idlist(self, p):
         """idlist : iddec
@@ -202,7 +202,6 @@ class Parser:
                | exp LE exp
                | exp GE exp"""
         self.codeGenerator.generate_boolean_relop_code(p, self.new_temp(), self.new_label(), self.new_label(), self.new_label())
-        pass
 
     def p_exp_or(self, p):
         """exp : exp OR exp"""
@@ -243,7 +242,7 @@ class Parser:
 
     def p_exp_lvalue(self, p):
         """exp : lvalue"""
-        self.codeGenerator.generate_lvalue_exp(p, self.new_temp())
+        self.codeGenerator.generate_lvalue_exp(p)
 
     def p_exp_paran(self, p):
         """exp : LRB exp RRB"""
@@ -251,7 +250,7 @@ class Parser:
 
     def p_exp_assign(self, p):
         """exp : lvalue ASSIGN exp"""
-        self.codeGenerator.generate_assign(p)
+        self.codeGenerator.generate_assign(p, False)
 
     def p_exp_neg(self, p):
         """exp : SUB exp"""
