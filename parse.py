@@ -35,7 +35,7 @@ class Parser:
     def new_label(self):
         temp = "L" + str(self.tempLabelCount)
         self.tempLabelCount += 1
-        return temp
+        return temp, False
 
     def p_program(self, p):
         """program : declist MAIN LRB RRB block
@@ -213,10 +213,13 @@ class Parser:
         print(p[2].code)
 
     def p_exp(self, p):
-        """exp : lvalue
-               | lvalue LRB explist RRB
+        """exp : lvalue LRB explist RRB
                | lvalue LRB RRB"""
         pass
+
+    def p_exp_lvalue(self, p):
+        """exp : lvalue"""
+        self.codeGenerator.generate_lvalue_exp(p, self.new_temp())
 
     def p_exp_paran(self, p):
         """exp : LRB exp RRB"""

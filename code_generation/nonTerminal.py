@@ -30,12 +30,15 @@ class NonTerminal:
         return self.value
 
     def generate_labeled_code(self):
-        if self.begin != "":
-            return self.begin + " :\n" + self.code
+        if self.begin != "" and not self.begin[1]:
+            self.begin = (self.begin[0], True)
+            return self.begin[0] + " :\n" + self.code
         return self.code
 
     def generate_boolean_code(self):
-        if self.label != "":
-            self.code += self.label + " :\n"
-        self.code += 'if (' + self.exp + ") goto " + self.true + ";\ngoto " + self.false
+        if self.label != "" and not self.label[1]:
+            self.code += self.label[1] + " :\n"
+        self.true = (self.true[0], True)
+        self.false = (self.false[0], True)
+        self.code += 'if (' + self.exp + ") goto " + self.true[0] + ";\ngoto " + self.false[0]
         return self.code + ";"

@@ -35,19 +35,20 @@ class CodeGenerator:
 
     def generate_if(self, p, next_label):
         p[0] = NonTerminal()
-        p[0].next = next_label
+        p[0].next = next_label[0], True
 
         if len(p[3].quad) == 0:
             print(p[3].generate_boolean_code())
 
         true_list = list(self.generate_t_list(p[3]))
         false_list = list(self.generate_f_list(p[3]))
-        for true_label in true_list:
+        p[5].begin = (p[5].begin[0], True)
+        for (true_label, _) in true_list:
             p[0].code += true_label + ":\n" + \
-                "goto " + p[5].begin + ";\n"
-        for false_label in false_list:
+                "goto " + p[5].begin[0] + ";\n"
+        for (false_label, _) in false_list:
             p[0].code += false_label + ":\n" + \
-                "goto " + next_label + ";\n"
+                "goto " + next_label[0] + ";\n"
         p[0].code += p[5].generate_labeled_code()
         print(p[0].code)
 
@@ -92,8 +93,7 @@ class CodeGenerator:
     def generate_lvalue_from_id(self, p):
         p[0] = NonTerminal()
         p[0].exp = p[1]
-        p[0].value = p[1]
-        p[0].code = p[1]
+        p[0].place = p[1]
 
     def generate_statement_from_exp(self, p, next_label):
 
@@ -119,9 +119,17 @@ class CodeGenerator:
     def generate_paran_exp(self, p, temp):
         p[0] = NonTerminal()
         p[0].place = temp
-        p[0].code = p[2].code
+        if p[2].type != "bool":
+            p[0].code = p[2].code + "\n"
+            p[0].code += p[0].place + " = " + p[2].place
         p[0].type = p[2].type
         p[0].exp = p[2].get_exp()
         p[0].true = p[2].true
         p[0].false = p[2].false
-        print(p[0].code)
+
+    def generate_lvalue_exp(self, p, temp):
+        p[0] = NonTerminal()
+        p[0].code = p[1].code
+        p[0].exp = p[1].exp
+        p[0].type = p[1].type
+        p[0].place = p[1].place
