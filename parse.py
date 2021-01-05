@@ -126,7 +126,7 @@ class Parser:
 
     def p_lvalue_arr(self, p):
         """lvalue : ID LSB exp RSB"""
-        pass
+        self.codeGenerator.generatelvalue_from_array(p, self.new_temp())
 
     def p_case(self, p):
         """case : WHERE const COLON stmtlist"""

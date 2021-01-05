@@ -95,6 +95,12 @@ class CodeGenerator:
         p[0].exp = p[1]
         p[0].place = p[1]
 
+    def generatelvalue_from_array(self, p, temp):
+        p[0] = NonTerminal()
+        p[0].exp = p[1] + "[" + p[3].get_exp() + "]"
+        p[0].code = p[3].code + '\n' + temp + " = " + p[1] + "[" + p[3].get_value() + "]"
+        p[0].place = temp
+
     def generate_statement_from_exp(self, p, next_label):
 
         p[0] = NonTerminal()
