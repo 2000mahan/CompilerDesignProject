@@ -215,9 +215,7 @@ class Parser:
     def p_exp(self, p):
         """exp : lvalue
                | lvalue LRB explist RRB
-               | lvalue LRB RRB
-               | SUB exp
-        """
+               | lvalue LRB RRB"""
         pass
 
     def p_exp_paran(self, p):
@@ -227,6 +225,10 @@ class Parser:
     def p_exp_assign(self, p):
         """exp : lvalue ASSIGN exp"""
         self.codeGenerator.generate_assign(p)
+
+    def p_exp_neg(self, p):
+        """exp : SUB exp"""
+        self.codeGenerator.generate_negation_code(p, self.new_temp())
 
     def p_exp_sum(self, p):
         """exp : exp SUM exp"""

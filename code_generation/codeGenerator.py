@@ -16,6 +16,15 @@ class CodeGenerator:
         p[0].type = "num"
         p[0].exp = p[1].get_exp() + " " + p[2] + " " + p[3].get_exp()
 
+    def generate_negation_code(self, p, temp):
+        p[0] = NonTerminal()
+        p[0].place = temp
+        p[0].code += p[2].code + "\n"
+        p[0].code += p[0].place + " = "
+        p[0].code += "0 " + p[1] + " " + p[2].get_value() + ";"
+        p[0].type = "num"
+        p[0].exp = "0 " + p[1] + " " + p[2].get_exp()
+
     def generate_boolean_relop_code(self, p, temp, true, false):
         p[0] = NonTerminal()
         p[0].place = temp
