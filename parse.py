@@ -60,12 +60,13 @@ class Parser:
         """type : INTEGER
                 | FLOAT
                 | BOOLEAN"""
-        #print("INTEGER| FLOAT| BOOLEAN")
+        p[0] = NonTerminal()
+        p[0].type = p[1]
         pass
 
     def p_iddec(self, p):
         """iddec : lvalue"""
-        pass
+        self.codeGenerator.generate_iddec_lvalue(p)
 
     def p_iddec_assign(self, p):
         """iddec : lvalue ASSIGN exp"""
@@ -74,31 +75,34 @@ class Parser:
     def p_idlist(self, p):
         """idlist : iddec
                   | idlist COMMA iddec"""
-        #print("iddec| idlist COMMA iddec")
-        pass
+        self.codeGenerator.generate_id_list(p)
 
     def p_vardec(self, p):
         """vardec : idlist COLON type SEMICOLON"""
-        #print("idlist COLON type SEMICOLON")
-        pass
+        self.codeGenerator.generate_vardec(p)
 
+    # TODO: Function decleration
     def p_funcdec(self, p):
         """funcdec : FUNCTION ID LRB paramdecs RRB COLON type block
                    | FUNCTION ID LRB paramdecs RRB block"""
         #print("FUNCTION ID LRB paramdecs RRB COLON type block| FUNCTION ID LRB paramdecs RRB block")
         pass
+
+    # TODO: Function parameters decleration
     def p_paramdecs(self, p):
         """paramdecs : paramdecslist
                      | empty"""
         #print("paramdecslist| empty")
         pass
 
+    # TODO: Function parameter list decleration
     def p_paramdecslist(self, p):
         """paramdecslist : paramdec
                          | paramdecslist COMMA paramdec"""
         #print("paramdec| paramdecslist COMMA paramdec")
         pass
 
+    # TODO: Function parameter decleration
     def p_paramdec(self, p):
         """ paramdec : ID COLON type
                      | ID LSB RSB COLON type"""
@@ -107,7 +111,6 @@ class Parser:
 
     def p_block(self, p):
         """block : LCB stmtlist RCB"""
-
         self.codeGenerator.generate_from_block(p)
 
     def p_stmtlist(self, p):
@@ -139,15 +142,24 @@ class Parser:
         #print("cases case| empty")
         pass
 
+    # TODO: Loops and conditionals
     def p_stmt(self, p):
         """stmt : RETURN exp SEMICOLON
-                | vardec
                 | WHILE LRB exp RRB stmt
                 | ON LRB exp RRB LCB cases RCB SEMICOLON
                 | FOR LRB exp SEMICOLON exp SEMICOLON exp RRB stmt
-                | FOR LRB ID IN ID RRB stmt
-                | PRINT LRB ID RRB SEMICOLON"""
+                | FOR LRB ID IN ID RRB stmt"""
         pass
+
+    def p_stmt_vardec(self, p):
+        """stmt : vardec"""
+        p[0] = NonTerminal()
+        p[0].next = self.new_label()
+        p[0].code = p[1].code + ";\n"
+
+    def p_stmt_print(self, p):
+        """stmt : PRINT LRB ID RRB SEMICOLON"""
+        self.codeGenerator.generate_print(p, self.new_label())
 
     def p_stmt_from_block(self, p):
         """stmt : block"""
@@ -163,13 +175,24 @@ class Parser:
     def p_stmt_if(self, p):
         """stmt : IF LRB exp RRB stmt elseiflist %prec p1
                 | IF LRB exp RRB stmt elseiflist ELSE stmt"""
-        self.codeGenerator.generate_if(p, self.new_label())
+        p[0] = NonTerminal()
+        if len(p) == 9:
+            if p[8].begin == '':
+                p[8].begin = self.new_label()
+            self.codeGenerator.generate_if(p, p[8].begin, 3, 5, False)
+        else:
+            if p[5].begin == '':
+                p[5].begin = self.new_label()
+            self.codeGenerator.generate_if(p, self.new_label(), 3, 5, False)
 
     def p_elseiflist(self, p):
         """elseiflist : elseiflist ELSEIF LRB exp RRB stmt
                       | empty"""
-        # print("elseiflist ELSEIF LRB exp RRB stmt| empty")
-        pass
+        p[0] = NonTerminal()
+        if p[1] is None:
+            self.codeGenerator.generate_empty_elseif_list(p, self.new_label())
+        else:
+            self.codeGenerator.generate_elseif_list(p, self.new_label())
 
     def p_exp_relop(self, p):
         """exp : exp GT exp
@@ -178,13 +201,13 @@ class Parser:
                | exp EQ exp
                | exp LE exp
                | exp GE exp"""
-        self.codeGenerator.generate_boolean_relop_code(p, self.new_temp(), self.new_label(), self.new_label())
+        self.codeGenerator.generate_boolean_relop_code(p, self.new_temp(), self.new_label(), self.new_label(), self.new_label())
         pass
 
     def p_exp_or(self, p):
         """exp : exp OR exp"""
         p[0] = NonTerminal()
-        p[3].label = p[1].false
+        p[3].begin = p[1].false
         p[0].false = p[3].false
         p[0].quad.extend([p[1], p[2], p[3]])
         p[1].generate_boolean_code()
@@ -195,7 +218,7 @@ class Parser:
     def p_exp_and(self, p):
         """exp : exp AND exp"""
         p[0] = NonTerminal()
-        p[3].label = p[1].true
+        p[3].begin = p[1].true
         p[0].true = p[3].true
         p[0].quad.extend([p[1], p[2], p[3]])
         p[1].generate_boolean_code()
@@ -212,6 +235,7 @@ class Parser:
         p[2].generate_boolean_code()
         print(p[2].code)
 
+    # TODO: Function call
     def p_exp(self, p):
         """exp : lvalue LRB explist RRB
                | lvalue LRB RRB"""
@@ -277,6 +301,7 @@ class Parser:
         p[0] = NonTerminal()
         p[0].value = p[1]
 
+    # TODO: Expression list for function
     def p_explist(self, p):
         """explist : exp
                    | explist COMMA exp"""
