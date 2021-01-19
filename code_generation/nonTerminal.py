@@ -1,5 +1,7 @@
 import re
 
+printed_labels = set()
+
 class NonTerminal:
 
     def __init__(self):
@@ -14,6 +16,9 @@ class NonTerminal:
         self.parameters = []
         self.value = ""
         self.next = ""
+        self.final = ''
+        self.cases = []
+        self.symbols = []
 
     def get_value(self):
         if self.value == "":
@@ -31,21 +36,23 @@ class NonTerminal:
         return self.value
 
     def generate_labeled_code(self):
-        if self.begin != "" and not self.begin[1]:
+        if self.begin != "" and (re.match(r'^\n*' + self.begin[0] + " :", self.code) is None):
             self.begin = (self.begin[0], True)
             code = re.sub(r'\n+', '\n', self.code)
             code = re.sub(r'^\n+', '', code)
+            printed_labels.add(self.begin[0])
             return self.begin[0] + " : printf(\"\");\n" + code
 
         return self.code
 
     def generate_boolean_code(self):
-        if self.begin != "" and not self.begin[1]:
+        if self.begin != "":
             self.begin = (self.begin[0], True)
-            self.code += self.begin[0] + " : printf(\"\");\n"
-        self.true = (self.true[0], True)
-        self.false = (self.false[0], True)
-        code = re.sub(r'\n+', '\n', 'if (' + self.exp + ") goto " + self.true[0] + ";\ngoto " + self.false[0])
+            printed_labels.add(self.begin[0])
+            self.code = self.begin[0] + " : printf(\"\");\n" + self.code
+        code = self.code
+        if self.true != '' and self.false != '' and self.exp != '':
+            code = re.sub(r'\n+', '\n', 'if (' + self.exp + ") goto " + self.true[0] + ";\ngoto " + self.false[0] + ";")
         code = re.sub(r'^\n+', '', code)
         self.code += code
         return self.code + ";"

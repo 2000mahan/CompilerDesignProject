@@ -1,10 +1,24 @@
-n1 = 20 - 10 / 2, n10 = 1 - 10 * 7:int;
+x[10]:int;
+i = 0,j = 0:int;
 main()
 {
-    n2, n3:int;
-    n2 = n1 / (3 + 2);
-    n3 = n1 * n2 - 10 ;
-    print(n1);
-    print(n2);
-    print(n3);
+     for(i = 0;i < 10 ;i = i + 1)
+        x[i] = (i * i) % 15;
+
+    for(i = 0;i < 8 ;i = i + 1)
+    {
+        j = x[i] <= x[i + 1] <= x[i + 2] or x[i] >= x[i + 1] >= x[i + 2];
+        print(j);
+    }
+
+    for(i = 0;i < 10 ;i = i + 1)
+        for(j = i + 1;j < 10 ;j = j + 1)
+            if(x[i] < x[j])
+            {
+                swapper = x[i]:int;
+                x[i] = x[j];
+                x[j] = swapper;
+            }
+    for(i in x)
+        print(i);
 }

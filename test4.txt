@@ -1,0 +1,11 @@
+
+i = 0,j = 0:int;
+main()
+{
+     x[3]: int;
+     x[0] = 2;
+     x[1] = 1;
+     x[2] = 0;
+     for(i in x)
+        print(i);
+}
