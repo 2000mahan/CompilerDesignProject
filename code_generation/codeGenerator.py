@@ -626,7 +626,8 @@ int val, i;
         code = p[0].code
         code = re.sub(r'\n+', '\n', code)
         code = re.sub(r'\n+;\n+', "\n", code)
-        # print(code)
+        print(code)
+        print("\nSymbol Table:")
         print(p[0].symbols)
 
     def generate_dec_from_vardec(self, p):
